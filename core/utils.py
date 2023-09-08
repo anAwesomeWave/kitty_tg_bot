@@ -1,9 +1,9 @@
 import requests
 
-from log_conf import create_logger
+from core.log_conf import create_logger
 
 
-logger = create_logger(__name__, '../logs/utils.log')
+logger = create_logger(__name__, 'utils.log')
 
 
 def get_random_cat_photo():

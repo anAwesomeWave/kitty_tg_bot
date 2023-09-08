@@ -11,7 +11,7 @@ from log_conf import create_logger
 
 load_dotenv()
 
-logger = create_logger(__name__, '../logs/bot.log')
+logger = create_logger(__name__, 'bot.log')
 
 
 def start_bot(update, context):
