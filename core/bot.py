@@ -1,24 +1,28 @@
 import os
-import logging
-
 from telegram.ext import Filters, CommandHandler, Updater, MessageHandler
 from telegram import ReplyKeyboardMarkup
 from dotenv import load_dotenv
 
 from utils import get_random_cat_photo, get_info_text
-
+from log_conf import create_logger
 # по угару добавить бд со ввсеми юзерами, которые пользовались когда-либо ботом
 # добавлять id стикеров в бд
 # на любое сообщение отправлять инфо с подсказками по командам
 
 load_dotenv()
 
+logger = create_logger(__name__, '../logs/bot.log')
+
 
 def start_bot(update, context):
     chat_id = update.effective_chat.id
+    username = update['message']['chat']['username']
     buttons = ReplyKeyboardMarkup([
         ['/info', '/get_cat_photo', '/start']
     ], resize_keyboard=True)
+
+    logger.info(f'New user - [{chat_id}, {username}]')
+
     context.bot.send_message(
         # INFO новый чат с юзером {id} и {username}
         chat_id=chat_id,
@@ -41,8 +45,9 @@ def send_info(update, context):
 def send_cat_photo(update, context):
     image = get_random_cat_photo()
     if image is None:
-        ...
+        logger.error('error with getting an image of a cat, see "utils" logs"')
     chat_id = update.effective_chat.id
+    logger.debug(f'send new photo to {chat_id}')
     context.bot.send_photo(chat_id, image)
 
 

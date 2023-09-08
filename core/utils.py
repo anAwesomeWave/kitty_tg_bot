@@ -1,16 +1,22 @@
-import logging
-
 import requests
+
+from log_conf import create_logger
+
+
+logger = create_logger(__name__, '../logs/utils.log')
 
 
 def get_random_cat_photo():
     image = None
+    logger.debug('Serve new cat photo')
     try:
         image = requests.get(
             'https://api.thecatapi.com/v1/images/search'
         ).json()[0]['url']
-    except requests.exceptions.RequestException:
+    except requests.exceptions.RequestException as err:
         # логи этого
+        logger.error('CANT GET PHOTO OF A CAT')
+        logger.error(err)
         ...
     return image
 
