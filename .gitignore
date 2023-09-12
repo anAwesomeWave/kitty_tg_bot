@@ -1,5 +1,4 @@
 venv/
 .idea/
-.env
 *.log
 users_data.db
